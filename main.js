@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarProductos();
     document.getElementById("btnAgregar").addEventListener("click", agregarProducto);
 });
-const API_URL = "https://proyectoprog3.onrender.com/backend.php";
+const API_URL = "https://proyectoprog3.onrender.com";
 
 function cargarProductos() {
     fetch(API_URL)

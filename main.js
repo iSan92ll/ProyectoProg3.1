@@ -31,33 +31,30 @@ function agregarProducto() {
     let producto = document.getElementById("producto").value;
     let precio = document.getElementById("precio").value;
     let disponibilidad = document.getElementById("disponibilidad").value;
-
+    
     if (!producto || !precio || !disponibilidad) {
         alertify.error("Todos los campos son obligatorios");
         return;
     }
+    
+    let formData = new FormData();
+    formData.append("producto", producto);
+    formData.append("precio", precio);
+    formData.append("disponibilidad", disponibilidad);
 
     fetch("https://tu-backend-en-render.onrender.com/backend.php?action=create", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            producto: producto,
-            precio: parseFloat(precio),
-            disponibilidad: parseInt(disponibilidad)
-        })
+        body: formData
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            alertify.error(data.error);
-        } else {
-            alertify.success("Producto agregado");
-            cargarProductos();  // Recargar la lista
-        }
-    })
-    .catch(error => console.error("Error al agregar producto:", error));
+    .then(response => response.text())
+    .then(data => console.log(data))
+    .then(() => {
+        alertify.success("Producto agregado");
+        cargarProductos();
+        document.getElementById("producto").value = "";
+        document.getElementById("precio").value = "";
+        document.getElementById("disponibilidad").value = "";
+    });
 }
 
 function editarProducto(id, nombre, precio, disponibilidad) {
@@ -74,7 +71,7 @@ function actualizarProducto(id) {
     let precio = document.getElementById("precio").value;
     let disponibilidad = document.getElementById("disponibilidad").value;
     
-    fetch(API_URL, {
+    fetch("https://tu-backend-en-render.onrender.com/backend.php?action=update, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `id=${id}&producto=${producto}&precio=${precio}&disponibilidad=${disponibilidad}`
@@ -93,7 +90,7 @@ function actualizarProducto(id) {
 
 function eliminarProducto(id) {
     if (confirm("¿Estás seguro de eliminar este producto?")) {
-        fetch(API_URL, {
+        fetch("https://tu-backend-en-render.onrender.com/backend.php?action=delete", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `id=${id}`

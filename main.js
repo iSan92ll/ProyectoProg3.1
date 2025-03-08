@@ -70,7 +70,7 @@ function actualizarProducto(id) {
     let precio = document.getElementById("precio").value;
     let disponibilidad = document.getElementById("disponibilidad").value;
     
-    fetch("https://proyectoprog3.onrender.com//backend.php?action=update, {
+    fetch("https://proyectoprog3.onrender.com//backend.php?action=update", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `id=${id}&producto=${producto}&precio=${precio}&disponibilidad=${disponibilidad}`

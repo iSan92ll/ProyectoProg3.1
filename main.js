@@ -5,27 +5,37 @@ document.addEventListener("DOMContentLoaded", () => {
 const API_URL = "https://proyectoprog3.onrender.com/backend.php";
 
 function cargarProductos() {
-    fetch(API_URL)
-    .then(response => response.json())
+    fetch("https://tu-backend-en-render.onrender.com/backend.php?action=read")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error en la respuesta del servidor");
+        }
+        return response.json();
+    })
     .then(data => {
-            let listado = document.getElementById("listado");
-            listado.innerHTML = "";
-            data.forEach(producto => {
-                listado.innerHTML += `
+        if (!Array.isArray(data)) {
+            throw new Error("Respuesta no válida del servidor");
+        }
+
+        let listado = document.getElementById("listado");
+        listado.innerHTML = "";
+
+        data.forEach(producto => {
+            listado.innerHTML += `
                 <tr>
-                <td class="text-center">${producto.id}</td>
-                <td class="text-center">${producto.producto}</td>
-                <td class="text-center">${producto.precio}</td>
-                <td class="text-center">${producto.disponibilidad}</td>
-                <td class="text-center">
-                <button class="btn btn-warning btn-sm" onclick="editarProducto(${producto.id}, '${producto.producto}', ${producto.precio}, '${producto.disponibilidad}')">Editar</button>
-                <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${producto.id})">Eliminar</button>
-                </td>
+                    <td class="text-center">${producto.id}</td>
+                    <td class="text-center">${producto.producto}</td>
+                    <td class="text-center">${producto.precio}</td>
+                    <td class="text-center">${producto.disponibilidad}</td>
+                    <td class="text-center">
+                        <button class="btn btn-warning btn-sm" onclick="editarProducto(${producto.id}, '${producto.producto}', ${producto.precio}, ${producto.disponibilidad})">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${producto.id})">Eliminar</button>
+                    </td>
                 </tr>`;
-            });
-        })
-        .catch(error => console.error("Error al cargar productos:", error));
-    }
+        });
+    })
+    .catch(error => console.error("Error al cargar productos:", error));
+}
     
 function agregarProducto() {
     let producto = document.getElementById("producto").value;

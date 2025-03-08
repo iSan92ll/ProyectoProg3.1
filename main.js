@@ -27,34 +27,37 @@ function cargarProductos() {
         .catch(error => console.error("Error al cargar productos:", error));
     }
     
-    function agregarProducto() {
+function agregarProducto() {
     let producto = document.getElementById("producto").value;
     let precio = document.getElementById("precio").value;
     let disponibilidad = document.getElementById("disponibilidad").value;
-    
+
     if (!producto || !precio || !disponibilidad) {
         alertify.error("Todos los campos son obligatorios");
         return;
     }
-    
-    let formData = new FormData();
-    formData.append("producto", producto);
-    formData.append("precio", precio);
-    formData.append("disponibilidad", disponibilidad);
 
-    fetch(API_URL, {
+    fetch("https://tu-backend-en-render.onrender.com/backend.php?action=create", {
         method: "POST",
-        body: formData
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            producto: producto,
+            precio: parseFloat(precio),
+            disponibilidad: parseInt(disponibilidad)
+        })
     })
-    .then(response => response.text())
-    .then(data => console.log(data))
-    .then(() => {
-        alertify.success("Producto agregado");
-        cargarProductos();
-        document.getElementById("producto").value = "";
-        document.getElementById("precio").value = "";
-        document.getElementById("disponibilidad").value = "";
-    });
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alertify.error(data.error);
+        } else {
+            alertify.success("Producto agregado");
+            cargarProductos();  // Recargar la lista
+        }
+    })
+    .catch(error => console.error("Error al agregar producto:", error));
 }
 
 function editarProducto(id, nombre, precio, disponibilidad) {

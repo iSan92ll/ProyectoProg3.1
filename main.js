@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function cargarProductos(filtro = "") {
-    fetch("http://localhost/ProyectoProgramacion3/backend.php?action=read")
+    fetch("https://proyectoprog3.onrender.com/backend.php?action=read")
     .then(response => response.text())
     .then(data => {
         let listado = document.getElementById("listado");
@@ -57,7 +57,7 @@ function agregarProducto() {
     formData.append("disponibilidad", disponibilidad);
     if (tipo === "ropa") formData.append("talla", talla);
 
-    fetch("http://localhost/ProyectoProgramacion3/backend.php?action=create", {
+    fetch("https://proyectoprog3.onrender.com/backend.php?action=create", {
         method: "POST",
         body: formData
     })
@@ -87,7 +87,7 @@ function actualizarProducto(id, tipo) {
     let disponibilidad = document.getElementById("disponibilidad").value;
     let talla = tipo === "ropa" ? document.getElementById("talla").value : "";
 
-    fetch("http://localhost/ProyectoProgramacion3/backend.php?action=update", {
+    fetch("https://proyectoprog3.onrender.com/backend.php?action=update", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `id=${id}&tipo=${tipo}&producto=${producto}&precio=${precio}&disponibilidad=${disponibilidad}&talla=${talla}`
@@ -105,7 +105,7 @@ function actualizarProducto(id, tipo) {
 function eliminarProducto(id, tipo) {
     alertify.confirm("Eliminar Producto", "¿Estás seguro de eliminar este producto?",
         function() {
-            fetch("http://localhost/ProyectoProgramacion3/backend.php?action=delete", {
+            fetch("https://proyectoprog3.onrender.com/backend.php?action=delete", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `id=${id}&tipo=${tipo}`

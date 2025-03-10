@@ -1,26 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
     cargarProductos();
-    document.getElementById("btnAgregar").addEventListener("click", agregarProducto);
+
+    document.getElementById("btnTodos").addEventListener("click", () => cargarProductos());
+    document.getElementById("btnRopa").addEventListener("click", () => cargarProductos("ropa"));
+    document.getElementById("btnComida").addEventListener("click", () => cargarProductos("comida"));
 });
 
-function cargarProductos() {
-    fetch("https://proyectoprog3.onrender.com/backend.php?action=read")
+function cargarProductos(filtro = "") {
+    fetch("http://localhost/ProyectoProgramacion3/backend.php?action=read")
     .then(response => response.json())
     .then(data => {
         let listado = document.getElementById("listado");
         listado.innerHTML = "";
-        data.forEach(producto => {
+
+        let productosFiltrados = filtro ? data.filter(producto => producto.tipo === filtro) : data;
+
+        productosFiltrados.forEach(producto => {
             let row = document.createElement("tr");
             row.classList.add("fade-in");
+
+            let tallaColumna = producto.tipo === "ropa" ? `<td class="text-center">${producto.talla || "-"}</td>` : `<td class="text-center">-</td>`;
+
             row.innerHTML = `
                 <td class="text-center">${producto.id}</td>
                 <td class="text-center">${producto.producto}</td>
                 <td class="text-center">$${producto.precio}</td>
                 <td class="text-center">${producto.disponibilidad}</td>
+                ${tallaColumna}
                 <td class="text-center">
-                    <button class="btn btn-warning btn-sm" onclick="editarProducto(${producto.id}, '${producto.producto}', ${producto.precio}, '${producto.disponibilidad}')"><i class="bi bi-pencil-square"></i> Editar</button>
-                    <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${producto.id})"><i class="bi bi-trash"></i> Eliminar</button>
-                </td>`;
+                    <button class="btn btn-warning btn-sm" onclick="editarProducto(${producto.id}, '${producto.tipo}', '${producto.producto}', ${producto.precio}, '${producto.disponibilidad}', '${producto.talla || ''}')"><i class="bi bi-pencil-square"></i> Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${producto.id}, '${producto.tipo}')"><i class="bi bi-trash"></i> Eliminar</button>
+                </td>
+            `;
             listado.appendChild(row);
         });
     })
@@ -28,21 +39,25 @@ function cargarProductos() {
 }
 
 function agregarProducto() {
+    let tipo = document.getElementById("tipo").value;
     let producto = document.getElementById("producto").value;
     let precio = document.getElementById("precio").value;
     let disponibilidad = document.getElementById("disponibilidad").value;
-    
-    if (!producto || !precio || !disponibilidad) {
+    let talla = tipo === "ropa" ? document.getElementById("talla").value : "";
+
+    if (!producto || !precio || !disponibilidad || (tipo === "ropa" && !talla)) {
         alertify.error("Todos los campos son obligatorios");
         return;
     }
-    
+
     let formData = new FormData();
+    formData.append("tipo", tipo);
     formData.append("producto", producto);
     formData.append("precio", precio);
     formData.append("disponibilidad", disponibilidad);
+    if (tipo === "ropa") formData.append("talla", talla);
 
-    fetch("https://proyectoprog3.onrender.com/backend.php?action=create", {
+    fetch("http://localhost/ProyectoProgramacion3/backend.php?action=create", {
         method: "POST",
         body: formData
     })
@@ -53,30 +68,33 @@ function agregarProducto() {
     });
 }
 
-function editarProducto(id, producto, precio, disponibilidad) {
+function editarProducto(id, producto, precio, disponibilidad, tipo, talla) {
     document.getElementById("producto").value = producto;
     document.getElementById("precio").value = precio;
     document.getElementById("disponibilidad").value = disponibilidad;
+    document.getElementById("tipo").value = tipo;
+    document.getElementById("talla").value = talla;
+    document.getElementById("talla-container").style.display = tipo === "ropa" ? "block" : "none";
+
     document.getElementById("btnAgregar").innerHTML = "<i class='bi bi-pencil-square'></i> Actualizar";
     document.getElementById("btnAgregar").removeEventListener("click", agregarProducto);
-    document.getElementById("btnAgregar").addEventListener("click", () => actualizarProducto(id));
+    document.getElementById("btnAgregar").addEventListener("click", () => actualizarProducto(id, tipo));
 }
 
-function actualizarProducto(id) {
+function actualizarProducto(id, tipo) {
     let producto = document.getElementById("producto").value;
     let precio = document.getElementById("precio").value;
     let disponibilidad = document.getElementById("disponibilidad").value;
-    
-    fetch("https://proyectoprog3.onrender.com/backend.php?action=update", {
+    let talla = tipo === "ropa" ? document.getElementById("talla").value : "";
+
+    fetch("http://localhost/ProyectoProgramacion3/backend.php?action=update", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `id=${id}&producto=${producto}&precio=${precio}&disponibilidad=${disponibilidad}`
+        body: `id=${id}&tipo=${tipo}&producto=${producto}&precio=${precio}&disponibilidad=${disponibilidad}&talla=${talla}`
     }).then(() => {
         alertify.success("Producto actualizado");
         cargarProductos();
-        document.getElementById("producto").value = "";
-        document.getElementById("precio").value = "";
-        document.getElementById("disponibilidad").value = "";
+        document.getElementById("form").reset();
         document.getElementById("btnAgregar").innerHTML = "<i class='bi bi-plus-circle'></i> Agregar";
         let nuevoBtn = document.getElementById("btnAgregar").cloneNode(true);
         document.getElementById("btnAgregar").parentNode.replaceChild(nuevoBtn, document.getElementById("btnAgregar"));
@@ -84,13 +102,13 @@ function actualizarProducto(id) {
     });
 }
 
-function eliminarProducto(id) {
-    alertify.confirm("Eliminar Producto", "¿Estás seguro de eliminar este producto?", 
+function eliminarProducto(id, tipo) {
+    alertify.confirm("Eliminar Producto", "¿Estás seguro de eliminar este producto?",
         function() {
-            fetch("https://proyectoprog3.onrender.com/backend.php?action=delete", {
+            fetch("http://localhost/ProyectoProgramacion3/backend.php?action=delete", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `id=${id}`
+                body: `id=${id}&tipo=${tipo}`
             }).then(() => {
                 alertify.success("Producto eliminado");
                 cargarProductos();

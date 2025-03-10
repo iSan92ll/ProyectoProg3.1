@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function cargarProductos(filtro = "") {
     fetch("https://proyectoprog3.onrender.com/backend.php?action=read")
-    .then(response => response.text())
+    .then(response => response.json())
     .then(data => {
         let listado = document.getElementById("listado");
         listado.innerHTML = "";

@@ -10,20 +10,12 @@ function cargarProductos(filtro = "") {
     fetch("https://proyectoprog3.onrender.com/backend.php?action=read")
     .then(response => response.text())
     .then(data => {
-        console.log("Respuesta de la API:", data); // Ver qué devuelve realmente
-      
-      try {
-          let jsonData = JSON.parse(data); // Intentar convertir a JSON
-          console.log("Datos parseados:", jsonData);
-      } catch (error) {
-          console.error("Error al convertir la respuesta a JSON:", error);
-      }
+        console.log("Respuesta de la API:", data);
+        let jsonData = JSON.parse(data); 
         let listado = document.getElementById("listado");
         listado.innerHTML = "";
 
-        // Filtra los productos según el tipo seleccionado
-        let productosFiltrados = filtro ? data.filter(producto => producto.tipo === filtro) : data;
-
+        let productosFiltrados = filtro ? jsonData.filter(producto => producto.tipo === filtro) : jsonData;
         if (!Array.isArray(productosFiltrados)) {
             console.error("Error: productosFiltrados no es un array", productosFiltrados);
             return;
@@ -33,7 +25,6 @@ function cargarProductos(filtro = "") {
             let row = document.createElement("tr");
             row.classList.add("fade-in");
 
-            // Si el producto es ropa, mostrar la talla. Si no, dejar un guion (-).
             let tallaColumna = producto.tipo === "ropa" ? `<td class="text-center">${producto.talla || "-"}</td>` : `<td class="text-center">-</td>`;
 
             row.innerHTML = `
@@ -73,7 +64,7 @@ function agregarProducto() {
     if (tipo === "ropa") formData.append("talla", talla);
 
     fetch("https://proyectoprog3.onrender.com/backend.php?action=create", {
-        method: "POST",
+        method: "_POST",
         body: formData
     })
     .then(() => {
@@ -103,7 +94,7 @@ function actualizarProducto(id, tipo) {
     let talla = tipo === "ropa" ? document.getElementById("talla").value : "";
 
     fetch("https://proyectoprog3.onrender.com/backend.php?action=update", {
-        method: "POST",
+        method: "_POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `id=${id}&tipo=${tipo}&producto=${producto}&precio=${precio}&disponibilidad=${disponibilidad}&talla=${talla}`
     }).then(() => {
@@ -121,7 +112,7 @@ function eliminarProducto(id, tipo) {
     alertify.confirm("Eliminar Producto", "¿Estás seguro de eliminar este producto?",
         function() {
             fetch("https://proyectoprog3.onrender.com/backend.php?action=delete", {
-                method: "POST",
+                method: "_POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `id=${id}&tipo=${tipo}`
             }).then(() => {
@@ -134,4 +125,3 @@ function eliminarProducto(id, tipo) {
         }
     );
 }
-

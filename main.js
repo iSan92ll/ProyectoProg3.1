@@ -75,7 +75,7 @@ function editarProducto(id, tipo, producto, precio, disponibilidad, talla) {
     document.getElementById("disponibilidad").value = disponibilidad;
     document.getElementById("tipo").value = tipo;
     document.getElementById("talla").value = talla;
-    document.getElementById("talla-container").style.display = tipo === "ropa" ? "block" : "none";
+    document.getElementById("talla-container").style.display = tipo == "ropa" ? "block";
     
     document.getElementById("btnAgregar").innerHTML = "<i class='bi bi-pencil-square'></i> Actualizar";
     document.getElementById("btnAgregar").onclick = () => actualizarProducto(id, tipo);

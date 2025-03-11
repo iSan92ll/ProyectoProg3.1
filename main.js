@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    cargarProductos();
+    cargarProductos(); // Carga todos los productos al inicio
 
     document.getElementById("btnTodos").addEventListener("click", () => cargarProductos());
     document.getElementById("btnRopa").addEventListener("click", () => cargarProductos("ropa"));
@@ -8,17 +8,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function cargarProductos(filtro = "") {
     fetch("https://proyectoprog3.onrender.com/backend.php?action=read")
-    .then(response => response.json())
+    .then(response => response.text())
     .then(data => {
+        console.log("Respuesta de la API:", data); // Ver qué devuelve realmente
+      
+      try {
+          let jsonData = JSON.parse(data); // Intentar convertir a JSON
+          console.log("Datos parseados:", jsonData);
+      } catch (error) {
+          console.error("Error al convertir la respuesta a JSON:", error);
+      }
         let listado = document.getElementById("listado");
         listado.innerHTML = "";
 
+        // Filtra los productos según el tipo seleccionado
         let productosFiltrados = filtro ? data.filter(producto => producto.tipo === filtro) : data;
+
+        if (!Array.isArray(productosFiltrados)) {
+            console.error("Error: productosFiltrados no es un array", productosFiltrados);
+            return;
+        }
 
         productosFiltrados.forEach(producto => {
             let row = document.createElement("tr");
             row.classList.add("fade-in");
 
+            // Si el producto es ropa, mostrar la talla. Si no, dejar un guion (-).
             let tallaColumna = producto.tipo === "ropa" ? `<td class="text-center">${producto.talla || "-"}</td>` : `<td class="text-center">-</td>`;
 
             row.innerHTML = `
@@ -119,3 +134,4 @@ function eliminarProducto(id, tipo) {
         }
     );
 }
+

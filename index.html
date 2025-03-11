@@ -14,7 +14,7 @@
     <style>
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Lato', sans-serif;
+            font-family: 'Serif', sans-serif;
             color: #f8f9fa;
             display: flex;
             justify-content: center;
@@ -26,7 +26,7 @@
             background: #fff;
             padding: 25px;
             border-radius: 10px;
-            max-width: 900px;
+            min-height: 70%;
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
             animation: fadeIn 1s ease-in-out;
         }
@@ -50,10 +50,6 @@
             overflow: hidden;
         }
 
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-        
         .table-hover tbody tr:hover {
             background-color: rgba(44, 62, 80, 0.1);
             transition: all 0.3s ease;
@@ -83,75 +79,88 @@
         }
         
         .table-responsive {
-            max-height: 400px;
+            max-height: 400px; /* Ajusta este valor según sea necesario */
             overflow-y: auto;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center text-secondary mb-4">CRUD Programación 3</h1>
+
+    <div class="container w-20 h-99">
+        <h1 class="text-center text-secondary mb-5">CRUD Programación 3</h1>
         <div class="row"> 
-            <div class="col-md-4">
+            <div class="col mt-5">
                 <h2 class="text-center">Agregar Producto</h2>
                 <form id="form">
-                    <div class="mb-3">
-                        <select id="tipo" class="form-control">
-                            <option value="ropa">Ropa</option>
-                            <option value="comida">Comida</option>
+                    <div class="mb-2">
+                        <select id="tipo" class="form-control mt-2">
+                            <option value="ropa">Tipo de Producto: Ropa</option>
+                            <option value="comida">Tipo de Producto: Comida</option>
                         </select>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="producto" placeholder="Producto">
+                    <div class="form-floating mt-4 mb-3">
+                        <input type="text" class="form-control mb-2" id="producto" placeholder="Producto">
                         <label for="producto">Producto</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="precio" placeholder="Precio">
+                        <input type="number" class="form-control mb-2" id="precio" placeholder="Precio">
                         <label for="precio">Precio</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="disponibilidad" placeholder="Disponibilidad">
+                        <input type="number" class="form-control mb-2"id="disponibilidad" placeholder="Disponibilidad">
                         <label for="disponibilidad">Disponibilidad</label>
                     </div>
                     <div class="form-floating mb-3" id="talla-container">
-                        <input type="text" class="form-control" id="talla" placeholder="Talla">
+                        <input type="text" class="form-control mb-2" id="talla" placeholder="Talla">
                         <label for="talla">Talla</label>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center mt-4">
                         <button type="button" class="btn btn-dark w-100" id="btnAgregar"><i class="bi bi-plus-circle"></i> Agregar</button>
+                    </div>
+                    <div class="text-center mt-2">
+                        <button type="button" class="btn btn-dark w-100" id="btnCancelar"><i class="bi bi-x-circle"></i> Cancelar</button>
                     </div>
                 </form>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 mt-4 mb-2">
                 <h2 class="text-center">Listado de productos</h2>
-                <nav>
+                <nav ria-label="Search results pages">
                     <ul class="pagination justify-content-center mt-3">
-                        <li class="page-item"><a class="page-link" id="btnTodos" href="#">Todos</a></li>
-                        <li class="page-item"><a class="page-link" id="btnRopa" href="#">Ropa</a></li>
-                        <li class="page-item"><a class="page-link" id="btnComida" href="#">Comida</a></li>
+                      <li class="page-item"><a class="page-link" id="btnTodos" href="#">Todos</a></li>
+                      <li class="page-item"><a class="page-link" id="btnRopa" href="#">Ropa</a></li>
+                      <li class="page-item"><a class="page-link" id="btnComida" href="#">Comida</a></li>
                     </ul>
                 </nav>
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-bordered text-center">
+                    <table class="table mt-2 table-bordered text-center">
                         <thead class="table-dark">
                             <tr>
-                                <th>ID</th>
-                                <th>Producto</th>
-                                <th>Precio</th>
-                                <th>Disponibilidad</th>
-                                <th>Talla</th>
-                                <th>Acciones</th>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Producto</th>
+                                <th class="text-center">Precio</th>
+                                <th class="text-center">Disponibilidad</th>
+                                <th class="text-center">Talla</th>
+                                <th class="text-center">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="listado"></tbody>
+                        <tbody id="listado">
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+        document.getElementById("tipo").addEventListener("change", function() {
+            let tipo = this.value;
+            let tallaContainer = document.getElementById("talla-container");
+            tallaContainer.style.display = (tipo === "ropa") ? "block" : "none";
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
     <script src="main.js"></script>
+
 </body>
 </html>

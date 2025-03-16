@@ -1,7 +1,5 @@
-/* Importar fuente moderna */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Estilos generales */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
@@ -20,7 +18,6 @@ html, body {
     flex-direction: column;
 }
 
-/* Header */
 header {
     background: linear-gradient(135deg, #6C3082, #433082);
     color: white;
@@ -145,7 +142,6 @@ input:focus, select:focus {
     outline: none;
 }
 
-/* Footer */
 footer {
     background: linear-gradient(135deg, #433082, #6C3082);
     color: white;

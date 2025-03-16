@@ -5,9 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
   verificarSesion();
 
   document.getElementById("btnTodos").addEventListener("click", () => cargarProductos());
-  document.getElementById("btnRopa").addEventListener("click", () => cargarProductos("clothing"));
-  document.getElementById("btnComida").addEventListener("click", () => cargarProductos("food"));
-  document.getElementById("btnTecnologia").addEventListener("click", () => cargarProductos("electronics"));
+  document.getElementById("btnRopa").addEventListener("click", () => cargarProductos("ropa"));
+  document.getElementById("btnComida").addEventListener("click", () => cargarProductos("comida"));
+  document.getElementById("btnTecnologia").addEventListener("click", () => cargarProductos("tecnologia"));
 
   document.getElementById("btnAgregar").addEventListener("click", agregarProducto);
 
@@ -126,10 +126,11 @@ function logout() {
 
 
 function cargarProductos(filtro = "") {
-    fetch("https://proyectocrpg3.onrender.com/backend.php?action=read", {
+    fetch("https://proyectoprog3.onrender.com/backend.php?action=read", {
         method: "GET",
         mode: "cors" 
         })
+    
         .then(res => res.json())
         .then(response => {
             if (!Array.isArray(response)) {

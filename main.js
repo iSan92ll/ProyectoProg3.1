@@ -126,7 +126,10 @@ function logout() {
 
 
 function cargarProductos(filtro = "") {
-    fetch("https://proyectocrpg3.onrender.com/backend.php?action=read")
+    fetch("https://proyectocrpg3.onrender.com/backend.php?action=read", {
+        method: "GET",
+        mode: "cors" 
+        })
         .then(res => res.json())
         .then(response => {
             if (!Array.isArray(response)) {

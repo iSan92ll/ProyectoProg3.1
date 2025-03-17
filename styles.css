@@ -148,7 +148,19 @@ button:hover {
     box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-#btnCarrito:hover, #btnBuscar:hover, #btnLimpiarBusqueda:hover {
+#btnLoginModal, #btnRegisterModal, #btnLogout, #btnCarritoModal {
+    background: linear-gradient(135deg, #82306F, #433082);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#btnCarrito:hover, #btnBuscar:hover, #btnLimpiarBusqueda:hover, #btnVaciarCarrito:hover {
     transform: scale(1.05);
     box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.3);
 }
@@ -245,17 +257,6 @@ input:focus, select:focus {
     color: #433082;
 }
 
-#btnLoginModal, #btnRegisterModal, #btnLogout, #btnCarritoModal {
-    background: linear-gradient(135deg, #82306F, #433082);
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
-}
 
 .modal-header {
     background: linear-gradient(135deg, #6C3082, #433082);

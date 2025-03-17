@@ -9,6 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btnComida").addEventListener("click", () => cargarProductos("comida"));
   document.getElementById("btnTecnologia").addEventListener("click", () => cargarProductos("tecnologia"));
 
+  document.getElementById("btnBuscar").addEventListener("click", () => cargarProductos(document.getElementById("busqueda").value.trim().toLowerCase()));
+  document.getElementById("busqueda").addEventListener("keypress", function (event) {
+    if (event.key === "Enter" && document.activeElement.id === "busqueda") {
+      const terminoBusqueda = document.getElementById("busqueda").value.trim().toLowerCase();
+      cargarProductos(terminoBusqueda);
+    }
+  });
+
   document.getElementById("btnAgregar").addEventListener("click", agregarProducto);
 
   document.getElementById("tipo").addEventListener("change", function() {
@@ -126,73 +134,79 @@ function logout() {
 
 
 function cargarProductos(filtro = "") {
-    fetch("https://proyectoprog3.onrender.com/backend.php?action=read", {
-        method: "GET",
-        mode: "cors" 
-        })
+  fetch("https://proyectoprog3.onrender.com/backend.php?action=read", {
+    method: "GET",
+    mode: "cors" 
+    })
+
+    .then(res => res.json())
+    .then(response => {
+      if (!Array.isArray(response)) {
+      console.error("La respuesta del servidor no es un array:", response);
+      return;
+      }
+      let data = response;
+      let listado = document.getElementById("listado");
+      listado.innerHTML = "";
+      let productosFiltrados = filtro 
+          ? data.filter(producto => 
+              producto.tipo?.toLowerCase().includes(filtro) ||
+              producto.producto?.toLowerCase().includes(filtro)
+          ) 
+          : data;
+        
+      if (!Array.isArray(productosFiltrados)) {
+          console.error("Error: productosFiltrados no es un array.", productosFiltrados);
+          return;
+      }
     
-        .then(res => res.json())
-        .then(response => {
-            if (!Array.isArray(response)) {
-                console.error("La respuesta del servidor no es un array:", response);
-                return;
-            }
-
-            let data = response;
-
-            let listado = document.getElementById("listado");
-            listado.innerHTML = "";
-            let productosFiltrados = filtro
-                ? data.filter(producto => producto.tipo?.toLowerCase() === filtro.toLowerCase())
-                : data;
-
-            if (!Array.isArray(productosFiltrados)) {
-                console.error("Error: productosFiltrados no es un array.", productosFiltrados);
-                return;
-            }
-
-            productosFiltrados.forEach(producto => {
-                let card = document.createElement("div");
-                card.classList.add("product-card");
-
-                card.innerHTML = `
-                    <img src="${producto.imagen}" alt="${producto.producto}" class="product-img">
-                    <h3>${producto.producto}</h3>
-                    <p><strong>Precio: $${producto.precio}</strong></p>
-                    <span class="stock">Disponibles: ${producto.disponibilidad}</span>
-                    <button class="btn btn-primary" onclick="agregarAlCarrito(${producto.id})">
-                        <i class="bi bi-cart-plus"></i> Añadir al Carrito
-                    </button>
-                `;
-
-                listado.appendChild(card);
-            });
-
-            // Listado admin
-            const listadoAdmin = document.getElementById("listadoAdmin");
-            listadoAdmin.innerHTML = "";
-
-            data.forEach(producto => {
-                const trAdmin = document.createElement("tr");
-                trAdmin.innerHTML = `
-                    <td>${producto.id}</td>
-                    <td>${producto.producto}</td>
-                    <td>$${producto.precio}</td>
-                    <td>${producto.disponibilidad}</td>
-                    <td>${producto.tipo === "ropa" ? (producto.talla || "-") : "-"}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" onclick="editarProducto(${producto.id}, '${producto.tipo}', '${producto.producto}', ${producto.precio}, ${producto.disponibilidad})">
-                            <i class="bi bi-pencil-square"></i> Editar
-                        </button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${producto.id}, '${producto.tipo}')">
-                            <i class="bi bi-trash"></i> Eliminar
-                        </button>
-                    </td>
-                `;
-                listadoAdmin.appendChild(trAdmin);
-            });
-        })
-        .catch(error => console.error("Error al cargar productos:", error));
+      if (productosFiltrados.length === 0) {
+          listado.innerHTML = "<p>No se encontraron productos con el término de búsqueda : "+filtro+".</p>";
+          return;
+      }
+    
+      productosFiltrados.forEach(producto => {
+          let card = document.createElement("div");
+          card.classList.add("product-card");
+      
+          card.innerHTML = `
+              <img src="${producto.imagen}" alt="${producto.producto}" class="product-img">
+              <h3 class="txtProducto">${producto.producto}</h3>
+              <p class="tipoP"><strong>Tipo:</strong> ${producto.tipo}</p>
+              <p class="precioP"><strong>Precio:</strong> $${producto.precio}</p>
+              <p class="disponibleP"><strong>Disponibles:</strong> ${producto.disponibilidad}</p>
+              <button class="btn-primary btn-sm me-2" onclick="agregarAlCarrito(${producto.id})" id="btnCarrito">
+                  <i class="bi bi-cart-plus"></i> Añadir al Carrito
+              </button>
+          `;
+      
+          listado.appendChild(card);
+      });
+    
+      // Listado admin
+      const listadoAdmin = document.getElementById("listadoAdmin");
+      listadoAdmin.innerHTML = "";
+      data.forEach(producto => {
+          const trAdmin = document.createElement("tr");
+          trAdmin.innerHTML = `
+              <td>${producto.id}</td>
+              <td>${producto.producto}</td>
+              <td>$${producto.precio}</td>
+              <td>${producto.disponibilidad}</td>
+              <td>${producto.tipo === "ropa" ? (producto.talla || "-") : "-"}</td>
+              <td>
+                  <button class="btn btn-warning btn-sm" onclick="editarProducto(${producto.id}, '${producto.tipo}', '${producto.producto}', ${producto.precio}, ${producto.disponibilidad})">
+                      <i class="bi bi-pencil-square"></i> Editar
+                  </button>
+                  <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${producto.id}, '${producto.tipo}')">
+                      <i class="bi bi-trash"></i> Eliminar
+                  </button>
+              </td>
+          `;
+          listadoAdmin.appendChild(trAdmin);
+      });
+    })
+    .catch(error => console.error("Error al cargar productos:", error));
 }
 
 //  CRUD para Admin

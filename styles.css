@@ -125,7 +125,7 @@ header {
 }
 
 /* Botones */
-button, #btnBuscar, #btnCarrito, #btnTodos, #btnRopa, #btnTecnologia, #btnComida, #btnLimpiarBusqueda {
+button, #btnBuscar, #btnCarrito, #btnTodos, #btnRopa, #btnTecnologia, #btnComida, #btnLimpiarBusqueda, #btnCerrarCarrito, #btnCerrarLogin, btnCerrarRegister #btnVaciarCarrito {
     background: linear-gradient(135deg, #82306F, #433082);
     color: white;
     border: none;

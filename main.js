@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btnComida").addEventListener("click", () => cargarProductos("comida"));
   document.getElementById("btnTecnologia").addEventListener("click", () => cargarProductos("tecnologia"));
 
+  document.getElementById("btnLimpiarBusqueda").addEventListener("click", () => {
+    document.getElementById("busqueda").value = "";
+    cargarProductos();
+  });
   document.getElementById("btnBuscar").addEventListener("click", () => cargarProductos(document.getElementById("busqueda").value.trim().toLowerCase()));
   document.getElementById("busqueda").addEventListener("keypress", function (event) {
     if (event.key === "Enter" && document.activeElement.id === "busqueda") {

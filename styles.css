@@ -137,7 +137,7 @@ button, #btnBuscar, #btnCarrito, #btnTodos, #btnRopa, #btnTecnologia, #btnComida
     box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#btnLimpiarBusqueda, #btnBuscar {
+#btnLimpiarBusqueda, #btnBuscar, #btnVaciarCarrito {
     font-size: 18px;
 }
 
@@ -245,7 +245,7 @@ input:focus, select:focus {
     color: #433082;
 }
 
-#btnLoginModal, #btnRegisterModal, #btnLogout {
+#btnLoginModal, #btnRegisterModal, #btnLogout, #btnCarritoModal {
     background: linear-gradient(135deg, #82306F, #433082);
     color: white;
     border: none;

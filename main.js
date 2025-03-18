@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  document.getElementById("btnAgregar").addEventListener("click", agregarProducto);
+  document.getElementById("btnAgregarProducto").addEventListener("click", agregarProducto);
 
   document.getElementById("tipo").addEventListener("change", function() {
     const tallaContainer = document.getElementById("talla-container");
@@ -199,10 +199,10 @@ function cargarProductos(filtro = "") {
               <td>${producto.disponibilidad}</td>
               <td>${producto.tipo === "ropa" ? (producto.talla || "-") : "-"}</td>
               <td>
-                  <button class="btn btn-warning btn-sm" onclick="editarProducto(${producto.id}, '${producto.tipo}', '${producto.producto}', ${producto.precio}, ${producto.disponibilidad})">
+                  <button id="btnEditarProducto" class="btn btn-warning btn-sm" onclick="editarProducto(${producto.id}, '${producto.tipo}', '${producto.producto}', ${producto.precio}, ${producto.disponibilidad})">
                       <i class="bi bi-pencil-square"></i> Editar
                   </button>
-                  <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${producto.id}, '${producto.tipo}')">
+                  <button id="btnEliminarProducto" class="btn btn-danger btn-sm" onclick="eliminarProducto(${producto.id}, '${producto.tipo}')">
                       <i class="bi bi-trash"></i> Eliminar
                   </button>
               </td>
@@ -360,7 +360,7 @@ function cargarCarrito() {
           <td>$${item.precio}</td>
           <td>$${subtotal}</td>
           <td>
-            <button class="btn btn-danger btn-sm" onclick="eliminarDelCarrito(${item.id_carrito})">
+            <button id="btbBorrarElementoCarrito" onclick="eliminarDelCarrito(${item.id_carrito})">
               <i class="bi bi-trash"></i>
             </button>
           </td>

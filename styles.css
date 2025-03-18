@@ -6,11 +6,13 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    color: #333;
-    background: 
-    linear-gradient(135deg, rgba(243, 231, 255, 0.8), rgba(179, 139, 243, 0.8)), 
-    url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
-    background-size: cover, auto;
+    background-color: #000000;
+    background-image: 
+    url("https://www.transparenttextures.com/patterns/carbon-fibre.png"),
+    radial-gradient(at 47% 33%, hsl(283.90, 46%, 35%) 0, transparent 59%), 
+    radial-gradient(at 82% 65%, hsl(253.90, 46%, 35%) 0, transparent 55%),
+    radial-gradient(at 18% 65%, hsl(253.90, 46%, 35%) 0, transparent 55%);
+    background-position: center;
     background-attachment: fixed;
 }
 
@@ -49,7 +51,7 @@ header {
 
 /* Footer */
 .main-footer {
-    background: linear-gradient(135deg, #433082, #6C3082);
+    background: linear-gradient(135deg,#6C3082,#433082);
     color: white;
     text-align: center;
     padding: 20px;
@@ -58,9 +60,19 @@ header {
 }
 
 .sobre-footer {
-    background-color: #f8f9fa;
-    padding: 5px;
+    background: linear-gradient(135deg, #6C3082, #433082);
+    color: #ffffff;
+    padding: 15px;
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    max-height: 370px;
+}
+
+.sobre-footer .text{
+    color: #ffffff
 }
 
 .sobre-footer h5, 
@@ -111,21 +123,23 @@ header {
 
 /* Contenedor principal */
 .container {
-    width: 90%;
-    max-width: 1500px;
+    backdrop-filter: blur(2px) saturate(200%);
+    -webkit-backdrop-filter: blur(2px) saturate(180%);
+    background-color: rgba(46, 52, 63, 0.20);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+
+    max-width: 1192px;
     margin-right: 100px;
     margin-top: 50px;
     margin-bottom: 50px;
-    background: white;
     padding: 45px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
     transition: transform 0.2s ease-in-out;
     flex: 1;
 }
 
 /* Botones */
-button, #btnBuscar, #btnCarrito, #btnTodos, #btnRopa, #btnTecnologia, #btnComida, #btnLimpiarBusqueda, #btnCerrarCarrito, #btnCerrarLogin, btnCerrarRegister #btnVaciarCarrito {
+button, #btnBuscar, #btnCarrito, #btnTodos, #btnRopa, #btnTecnologia, #btnComida, #btnLimpiarBusqueda, #btnCerrarLogin, #btnLogin, #btnRegister, #btnCerrarRegister, #btncerrarCarrito, #btnVaciarCarrito, #btbBorrarElementoCarrito, #btnAgregarProducto, #btnEditarProducto, #btnEliminarProducto {
     background: linear-gradient(135deg, #82306F, #433082);
     color: white;
     border: none;
@@ -137,7 +151,7 @@ button, #btnBuscar, #btnCarrito, #btnTodos, #btnRopa, #btnTecnologia, #btnComida
     box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#btnLimpiarBusqueda, #btnBuscar, #btnVaciarCarrito {
+#btnLimpiarBusqueda, #btnBuscar {
     font-size: 18px;
 }
 
@@ -148,21 +162,18 @@ button:hover {
     box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-#btnLoginModal, #btnRegisterModal, #btnLogout, #btnCarritoModal {
-    background: linear-gradient(135deg, #82306F, #433082);
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-#btnCarrito:hover, #btnBuscar:hover, #btnLimpiarBusqueda:hover, #btnVaciarCarrito:hover {
+#btnCarrito:hover, #btnBuscar:hover, #btnLimpiarBusqueda:hover, #btnLogin:hover, #btnCerrarLogin:hover, #btnRegister:hover, #btnCerrarRegister:hover, #btncerrarCarrito:hover, #btnVaciarCarrito:hover, #btbBorrarElementoCarrito:hover, #btnAgregarProducto:hover, #btnEditarProducto:hover, #btnEliminarProducto:hover {
     transform: scale(1.05);
     box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.table-responsive {
+    max-width: fit-content;
+}
+
+#productosSection {
+    display: block;
+    max-width: fit-content;
 }
 
 /* Contenedor de productos */
@@ -207,12 +218,15 @@ button:hover {
     color: #6C3082;
 }
 
-/* Tablas */
+#tablaCarrito, #tablaAdmin {
+    min-width: 766px;
+    max-width: fit-content;
+}
+
 table {
     width: 100%;
-    margin-top: 20px;
-    background: #fff;
-    border-radius: auto;
+    max-width: fit-content;
+    border-radius: 12px;
     overflow: hidden;
 }
 
@@ -252,11 +266,27 @@ input:focus, select:focus {
     flex-direction: column;
 }
 
-.txtNav, .txtListado {
-    font-size: 30px;
+.txtNav {
+    font-size: 25px;
     color: #433082;
 }
 
+.txtListado {
+    font-size: 40px;
+    color: #ffffff;
+}
+
+#btnLoginModal, #btnRegisterModal, #btnLogout, #btnCarritoModal {
+    background: linear-gradient(135deg, #82306F, #433082);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+}
 
 .modal-header {
     background: linear-gradient(135deg, #6C3082, #433082);
@@ -270,5 +300,9 @@ input:focus, select:focus {
 
 .txtopacity {
     font-style: italic;
-    opacity: 0.7;
+    color: #ccc;
+}
+
+#adminCrud, #form, .text-center {
+    color: #ffffff;
 }

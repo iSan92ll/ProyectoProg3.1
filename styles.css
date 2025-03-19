@@ -170,7 +170,7 @@ button:hover {
 
 .tablaCrud {
     min-width: 650PX;
-    max-height: 100px;
+    max-height: 450px;
     overflow-y: auto;
 }
 

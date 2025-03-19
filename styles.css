@@ -165,9 +165,10 @@ button:hover {
 }
 
 .table-responsive {
-    max-width: fit-content;
+    max-width: 740;
     max-height: 400px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #productosSection {

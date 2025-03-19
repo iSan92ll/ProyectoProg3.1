@@ -168,18 +168,10 @@ button:hover {
     max-width: auto;
 }
 
-.tablaCrud {
+.tablaCrud, #tablaAdmin {
     min-width: 650PX;
     max-height: 450px;
     overflow-y: auto;
-}
-
-#tablaAdmin {
-    min-width: 650px;
-    max-width: 650px;
-    max-height: 450px;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 #productosSection {

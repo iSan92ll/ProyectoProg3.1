@@ -169,8 +169,8 @@ button:hover {
 }
 
 #tablaAdmin {
-    min-width: none;
-    max-width: fit-content;
+    min-width: 650px;
+    max-width: 650px;
     max-height: 450px;
     overflow-y: auto;
     overflow-x: hidden;

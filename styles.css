@@ -168,7 +168,9 @@ button:hover {
     max-width: auto;
 }
 
-.tablaCrud {
+#tablaAdmin {
+    min-width: none;
+    max-width: fit-content;
     max-height: 450px;
     overflow-y: auto;
     overflow-x: hidden;

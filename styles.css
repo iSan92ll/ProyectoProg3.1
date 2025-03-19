@@ -60,7 +60,7 @@ header {
 
 .sobre-footer {
     color: #ffffff;
-    padding: 15px;
+    padding-bottom: 15px;
     display: flex;
     gap: 100px;
     justify-content: center;

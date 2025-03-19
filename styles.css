@@ -221,7 +221,7 @@ button:hover {
     color: #6C3082;
 }
 
-#tablaCarrito, #tablaAdmin {
+#tablaCarrito {
     min-width: 766px;
     max-width: fit-content;
 }

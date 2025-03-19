@@ -169,7 +169,7 @@ button:hover {
 }
 
 .tablaCrud, #tablaAdmin {
-    min-width: 650PX;
+    min-width: 694PX;
     max-height: 450px;
     overflow-y: auto;
 }

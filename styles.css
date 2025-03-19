@@ -165,7 +165,7 @@ button:hover {
 }
 
 .table-responsive {
-    max-width: 740;
+    max-width: 750;
     max-height: 400px;
     overflow-y: auto;
     overflow-x: hidden;

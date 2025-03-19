@@ -20,6 +20,7 @@ html, body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    scroll-behavior: smooth;
 }
 
 /* Header */

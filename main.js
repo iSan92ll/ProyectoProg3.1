@@ -200,10 +200,10 @@ function cargarProductos(filtro = "") {
               <td>${producto.tipo === "ropa" ? (producto.talla || "-") : "-"}</td>
               <td>
                   <button id="btnEditarProducto" class="btn btn-warning btn-sm" onclick="editarProducto(${producto.id}, '${producto.tipo}', '${producto.producto}', ${producto.precio}, ${producto.disponibilidad})">
-                      <i class="bi bi-pencil-square"></i> Editar
+                      <i class="bi bi-pencil-square"></i>
                   </button>
                   <button id="btnEliminarProducto" class="btn btn-danger btn-sm" onclick="eliminarProducto(${producto.id}, '${producto.tipo}')">
-                      <i class="bi bi-trash"></i> Eliminar
+                      <i class="bi bi-trash"></i>
                   </button>
               </td>
           `;

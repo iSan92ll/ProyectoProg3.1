@@ -166,6 +166,8 @@ button:hover {
 
 .table-responsive {
     max-width: fit-content;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 #productosSection {
